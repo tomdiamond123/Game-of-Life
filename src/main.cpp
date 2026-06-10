@@ -8,8 +8,7 @@ const int gridHeight {100};
 const int gridWidth {100};
 const float scale {10};
 
-// template <typename T, std::size_t Row, std::size_t Col>
-// using Array2d = std::array<std::array<T, Col>, Row>;
+
 using intGameGrid = std::array<std::array<int, gridHeight>, gridWidth>;
 
 intGameGrid initGrid(){
@@ -80,13 +79,6 @@ int main()
 	sf::RenderWindow window( sf::VideoMode( { static_cast<unsigned int>(gridHeight*scale), static_cast<unsigned int>(gridWidth*scale) } ), "GameOfLife" );
 	window.setFramerateLimit(10);
 	intGameGrid grid = initGrid();
-	// for(auto& row : grid){
-	// 	for(auto& square: row){
-	// 		std::cout << square;
-	// 	}
-	// 	std::cout << '\n';
-	// }
-
 
 	while ( window.isOpen() )
 	{
