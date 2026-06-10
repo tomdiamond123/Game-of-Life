@@ -3,7 +3,6 @@
 #include <iostream>
 #include <random>
 
-const int fractionAlive {2};
 const int gridHeight {100};
 const int gridWidth {100};
 const float scale {10};
@@ -25,20 +24,21 @@ intGameGrid initGrid(){
 	return grid;
 }
 
-void displayGrid(const intGameGrid grid, sf::RenderWindow& window){
+void displayGrid(const intGameGrid& grid, sf::RenderWindow& window){
+	sf::RectangleShape square({scale,scale});
+	square.setFillColor(sf::Color::White);
 	for (int row {0}; row<gridHeight; row++){
 		for (int col {0}; col<gridWidth; col++){
 			if (grid[row][col] == 1){
-				sf::RectangleShape square({scale,scale});
-				square.setPosition({static_cast<float>(col*scale),static_cast<float>(row*scale)});
-				square.setFillColor(sf::Color(255, 255, 255));
+				// square.setPosition({static_cast<float>(col*scale),static_cast<float>(row*scale)});
+				square.setPosition({col*scale,row*scale});
 				window.draw(square);
 			}
 		}
 	}
 }
 
-intGameGrid updateBoardByRules(intGameGrid grid){
+intGameGrid updateBoardByRules(const intGameGrid& grid){
 	intGameGrid newGrid {grid};
 
 	for (int row{0}; row<gridHeight; row++){
@@ -51,10 +51,10 @@ intGameGrid updateBoardByRules(intGameGrid grid){
 						continue;
 					}
 					//finds neighbour (% allows loop across screen, +gridHeight/gridWidth forces positive numbers)
-					int neighbour {grid[((row+diffRow) + gridHeight) % gridHeight][((col+diffCol) + gridHeight) % gridWidth]};
+					int neighbour {grid[((row+diffRow) + gridHeight) % gridHeight][((col+diffCol) + gridWidth) % gridWidth]};
 					
 					if (neighbour == 1){
-						numAlive += 1;
+						++numAlive;
 					}
 				}
 			}
@@ -76,7 +76,7 @@ intGameGrid updateBoardByRules(intGameGrid grid){
 
 int main()
 {
-	sf::RenderWindow window( sf::VideoMode( { static_cast<unsigned int>(gridHeight*scale), static_cast<unsigned int>(gridWidth*scale) } ), "GameOfLife" );
+	sf::RenderWindow window( sf::VideoMode( { static_cast<unsigned int>(gridWidth*scale), static_cast<unsigned int>(gridHeight*scale) } ), "GameOfLife" );
 	window.setFramerateLimit(10);
 	intGameGrid grid = initGrid();
 
